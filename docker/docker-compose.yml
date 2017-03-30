@@ -1,0 +1,18 @@
+version: '2'
+services:
+  gateway:
+    image: java:8
+    volumes:
+      - ../bt-api-gateway/target/gateway.jar:/opt/bt/gateway.jar
+      - ./gateway/application.properties:/opt/bt/application.properties
+    command: java -jar /opt/bt/gateway.jar --spring.config.location=/opt/bt/application.properties
+    ports:
+      - "8080:8080"
+    links:
+      - multiplier
+
+  multiplier:
+    image: java:8
+    volumes:
+      - ../bt-multiplier-svc/target/multiplier-svc.jar:/opt/bt/multiplier-svc.jar
+    command: java -jar /opt/bt/multiplier-svc.jar
